@@ -1,2 +1,2 @@
 # 退伍
-## 還多久https://neko12377.github.io/Demobilization/
+## 還多久(https://neko12377.github.io/Demobilization/)
