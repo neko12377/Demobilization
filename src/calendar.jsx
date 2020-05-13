@@ -6,7 +6,9 @@ export default function Calendar() {
   const [now, setToNow] = useState(new Date());
   const seconds = now.getSeconds();
   const minutes = now.getMinutes();
-  const defRemainderMillion = new Date(2020, 6, 29).getTime() - now.getTime();
+  const storageDate = localStorage.getItem('date');
+  const [demobilizationDate, setDemobilizationDate] = useState(storageDate || new Date(2020, 6, 29).getTime());
+  const defRemainderMillion = demobilizationDate - now.getTime();
   const defR = Math.floor(defRemainderMillion / (1000 * 60 * 60 * 24));
   const [remainder, setRemainder] = useState(defR);
 
@@ -24,10 +26,15 @@ export default function Calendar() {
     const countdownDate = new Date(year, month, day).getTime();
     const distance = countdownDate - now.getTime();
     const remainderDays = Math.floor(distance / (1000 * 60 * 60 * 24));
-    setRemainder(
-      `${remainderDays}`,
-    );
+    localStorage.setItem('date', countdownDate);
+    return remainderDays;
   }
+
+  const getRemainder = (event) => (isNaN(inputDate(event))
+    ? setRemainder('--')
+    : setRemainder(
+      `${inputDate(event)}`,
+    ));
 
 
   function tick() {
@@ -47,7 +54,7 @@ export default function Calendar() {
   return (
     <div className={styles.container}>
       <Form
-        inputDate={inputDate}
+        getRemainder={getRemainder}
       />
       <section className={styles.background}>
         <header />
